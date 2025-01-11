@@ -58,7 +58,7 @@ To get started with the project, follow these steps:
 
 2. Navigate to the project directory:
     ```sh
-    cd /home/code-monke/Desktop/User Blog Management/client
+    cd /path-to-your-directory/User Blog Management/client
     ```
 
 3. Install the dependencies:
