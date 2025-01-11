@@ -23,7 +23,6 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    console.log(data);
     
     dispatch(registerUser(data))
       .unwrap()
