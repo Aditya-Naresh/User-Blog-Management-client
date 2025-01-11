@@ -39,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchBloglist());
     dispatch(fetchCategories());
-  }, [dispatch, accessToken, formModal, editModal, selectedBlog]);
+  }, [dispatch, formModal, editModal, selectedBlog, selectedCategoryId, accessToken]);
 
   const handleCloseModal = () => dispatch(setFormModalClose());
   const handleCategoryClick = (data) => dispatch(setSelectedCategoryId(data));
