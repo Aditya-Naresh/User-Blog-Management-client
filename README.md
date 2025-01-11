@@ -53,7 +53,7 @@ To get started with the project, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/blog-management-app.git
+    git clone https://github.com/Aditya-Naresh/User-Blog-Management-client.git
     ```
 
 2. Navigate to the project directory:
