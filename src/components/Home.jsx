@@ -39,14 +39,31 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchBloglist());
     dispatch(fetchCategories());
-  }, [dispatch, formModal, editModal, selectedBlog, selectedCategoryId, accessToken]);
+  }, [
+    dispatch,
+    formModal,
+    categoryFormModal,
+    editModal,
+    selectedBlog,
+    selectedCategoryId,
+    accessToken,
+  ]);
 
   const handleCloseModal = () => dispatch(setFormModalClose());
   const handleCategoryClick = (data) => dispatch(setSelectedCategoryId(data));
   const handlCloseCategoryModal = () => dispatch(setShowCategoryModalOff());
   const onAddCategory = () => dispatch(setShowCategoryModalOn());
 
-  const onSave = (data) => dispatch(createCategory(data));
+  const onSave = (data) => {
+    dispatch(createCategory(data))
+      .unwrap()
+      .then(() => {
+        toast.success("Category Created");
+      })
+      .catch((error) => {
+        toast.error("Error creating category: ", error);
+      });
+  };
 
   const ModalFormSubmission = (data) => {
     if (selectedBlog && editModal) {
