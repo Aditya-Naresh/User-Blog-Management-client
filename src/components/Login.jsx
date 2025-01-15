@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Loader } from "lucide-react";
 import {
   TextField,
   Button,
@@ -40,8 +41,12 @@ const Login = () => {
       });
   };
 
-  return (
-    <Container maxWidth="sm">
+  return (<>
+    {loading? (<div className="flex justify-center items-center h-screen">
+      <Loader className="animate-spin text-blue-500 w-12 h-12" />
+    </div>):  
+    (
+      <Container maxWidth="sm">
       <Box sx={{ mt: 4, p: 2, borderRadius: 1 }}>
         <Paper
           elevation={8}
@@ -52,7 +57,7 @@ const Login = () => {
             boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
             border: "1px solid #d4af37",
           }}
-        >
+          >
           <Typography
             variant="h4"
             component="h1"
@@ -74,7 +79,7 @@ const Login = () => {
               fontFamily: "Georgia, serif",
               mb: 3,
             }}
-          >
+            >
             Login to access your personalized blog space
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -162,13 +167,17 @@ const Login = () => {
                 color: "#1a237e",
                 "&:hover": { textDecoration: "underline" },
               }}
-            >
+              >
               Don't have an account? Register
             </Link>
           </Box>
         </Paper>
       </Box>
     </Container>
+    )
+  }
+  </>
+  
   );
 };
 

@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
+import Bloglist from "./components/Bloglist";
+import BlogPage from "./components/BlogPage";
 
 const App = () => {
   const {accessToken} = useSelector((state) => state.auth);
@@ -41,7 +43,10 @@ const App = () => {
             element={accessToken ? <Navigate to="/" /> : <PasswordReset />}
           />
 
-          <Route path="/" element={<Home />} />
+          <Route element={<Home /> } >
+          <Route path="/" element={<Bloglist />} />
+          <Route path="/blog/:blogId" element={<BlogPage />} />
+          </Route>
         </Routes>
       </div>
     </Router>

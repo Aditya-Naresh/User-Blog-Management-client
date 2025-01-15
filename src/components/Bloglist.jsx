@@ -10,20 +10,19 @@ import {
   Box,
 } from "@mui/material";
 import { Eye } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setShowBlog } from "../redux/blog/blogSlice";
+import { useNavigate } from "react-router-dom";
 
-const Bloglist = ({ blogs, selectedCategory }) => {
-  // State for pagination
+const Bloglist = () => {
+  const {blogList, selectedCategory} = useSelector((state) => state.blog)
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
 
-  // Filter blogs based on selectedCategory
   const filteredBlogs = selectedCategory
-    ? blogs.filter((blog) => blog.category === selectedCategory)
-    : blogs;
+    ? blogList.filter((blog) => blog.category === selectedCategory)
+    : blogList;
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
   const currentBlogs = filteredBlogs.slice(
     (currentPage - 1) * blogsPerPage,
@@ -34,9 +33,11 @@ const Bloglist = ({ blogs, selectedCategory }) => {
     setCurrentPage(value);
   };
 
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const handleViewBlog = (blog) => {
     dispatch(setShowBlog(blog));
+    navigate(`/blog/${blog.id}`)
   };
 
   return (

@@ -73,6 +73,20 @@ export const updateBlogPost = createAsyncThunk(
   }
 );
 
+export const fetchBlogPost = createAsyncThunk(
+  "blog/fetchBlogPost",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`api/fetchBlog/${id}/`);
+      console.log(response.data);
+      
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const createCategory = createAsyncThunk(
   "blog/createCategory",
   async (data, { rejectWithValue }) => {

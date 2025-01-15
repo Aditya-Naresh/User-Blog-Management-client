@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createBlogPost,
   fetchBloglist,
+  fetchBlogPost,
   fetchCategories,
   updateBlogPost,
 } from "./blogThunk";
@@ -103,6 +104,18 @@ const blogSlice = createSlice({
       .addCase(updateBlogPost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error;
+      })
+      .addCase(fetchBlogPost.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchBlogPost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error;
+      })
+      .addCase(fetchBlogPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.selectedBlog = action.payload;
       });
   },
 });
