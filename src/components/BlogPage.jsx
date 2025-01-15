@@ -50,11 +50,13 @@ const BlogPage = () => {
   };
 
   if (isLoading) {
-    <div className="flex justify-center items-center h-screen">
-      <Loader className="animate-spin text-blue-500 w-12 h-12" />
-    </div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader className="animate-spin text-blue-500 w-12 h-12" />
+      </div>
+    );
   }
-  if (!blog && !isLoading) {
+  if (!isLoading && !blog) {
     return (
       <div className="bg-gray-100 min-h-screen py-6 px-4 flex justify-center items-center">
         <AlertCircle size={40} className="text-red-500" />
