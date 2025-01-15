@@ -16,46 +16,38 @@ import {
   LucideArrowLeftCircle,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditModalOn, setShowBlogList } from "../redux/blog/blogSlice";
+import { setEditModalOn, setSelectedBlog } from "../redux/blog/blogSlice";
 import { fetchBlogPost, updateViews } from "../redux/blog/blogThunk";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BlogPage = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user_id);
+  const isLoading = useSelector((state) => state.blog.isLoading);
+  const [blog, setBlog] = useState();
   const { blogId } = useParams();
-  const [blog, setBlog] = useState({});
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchBlogPost(blogId))
       .unwrap()
       .then((res) => {
-        console.log(res);
-        setBlog(res.data);
+        setBlog(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-  }, []);
+  }, [dispatch, blogId]);
+
   const handleGoBack = () => {
-    dispatch(setShowBlogList());
+    navigate("/");
   };
 
   const handleEdit = () => {
     console.log("Edit button Clicked");
+    dispatch(setSelectedBlog(blog));
     dispatch(setEditModalOn());
   };
-
-  useEffect(() => {
-    const views = setTimeout(() => {
-      dispatch(updateViews(blog.id))
-        .unwrap()
-        .then((res) => {
-          console.log("View Updated: ", res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }, 10000);
-
-    return () => clearTimeout(views);
-  }, [dispatch, blog.id]);
 
   if (!blog && !isLoading) {
     return (

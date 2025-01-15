@@ -13,14 +13,16 @@ import { Eye } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowBlog } from "../redux/blog/blogSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchBlogPost } from "../redux/blog/blogThunk";
 
 const Bloglist = () => {
-  const {blogList, selectedCategory} = useSelector((state) => state.blog)
+  const { blogList, selectedCategoryId } = useSelector((state) => state.blog);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
 
-  const filteredBlogs = selectedCategory
-    ? blogList.filter((blog) => blog.category === selectedCategory)
+  const filteredBlogs = selectedCategoryId
+    ? blogList.filter((blog) => blog.category === selectedCategoryId)
     : blogList;
 
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
@@ -33,12 +35,12 @@ const Bloglist = () => {
     setCurrentPage(value);
   };
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  const handleViewBlog = (blog) => {
-    dispatch(setShowBlog(blog));
-    navigate(`/blog/${blog.id}`)
+  const navigate = useNavigate();
+  const handleViewBlog = (blog) => {    
+    navigate(`/blog/${blog.id}`);
   };
+
+ 
 
   return (
     <div className="bg-gray-100 min-h-screen py-6">
@@ -56,14 +58,12 @@ const Bloglist = () => {
         Browse the Blogs
       </Typography>
 
-      {/* Display message if no blogs are available */}
       {filteredBlogs.length === 0 ? (
         <Typography variant="h5" align="center" sx={{ color: "gray" }}>
-          No blogs available in this.
+          No blogs available in this category.
         </Typography>
       ) : (
         <>
-          {/* Blog Cards */}
           <Box
             sx={{
               display: "grid",
@@ -82,21 +82,19 @@ const Bloglist = () => {
                   borderRadius: "12px",
                 }}
               >
-                {/* Blog Image */}
                 <CardMedia
                   component="img"
                   image={blog.image ? blog.image : "/BLOG.png"}
                   alt={blog.title}
                   sx={{
-                    height: 200, // Fixed height
-                    width: "100%", // Full width of the card
-                    objectFit: "cover", // Ensures image covers the area without distortion
+                    height: 200,
+                    width: "100%",
+                    objectFit: "cover",
                     borderTopLeftRadius: "12px",
                     borderTopRightRadius: "12px",
                   }}
                 />
 
-                {/* Blog Content */}
                 <CardContent>
                   <Typography
                     variant="h5"
@@ -105,25 +103,34 @@ const Bloglist = () => {
                   >
                     {blog.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
                     {blog.content.length > 100
                       ? `${blog.content.substring(0, 100)}...`
                       : blog.content}
                   </Typography>
 
-                  {/* Blog Views and Author */}
-                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: 2,
+                    }}
+                  >
                     <Typography variant="body2" color="text.secondary">
                       <Eye size={16} style={{ marginRight: 4 }} />
                       {blog.views} Views
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      <span style={{ fontWeight: "bold" }}>Author:</span> {blog.author}
+                      <span style={{ fontWeight: "bold" }}>Author:</span>{" "}
+                      {blog.author}
                     </Typography>
                   </Box>
                 </CardContent>
 
-                {/* Blog Actions */}
                 <CardActions>
                   <Button
                     size="small"
@@ -143,7 +150,6 @@ const Bloglist = () => {
             ))}
           </Box>
 
-          {/* Pagination */}
           <Pagination
             count={totalPages}
             page={currentPage}

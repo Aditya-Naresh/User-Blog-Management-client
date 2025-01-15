@@ -8,7 +8,7 @@ const authSlice = createSlice({
     user_id: localStorage.getItem("user_id") || null,
     accessToken: localStorage.getItem("access_token") || null,
     refreshToken: localStorage.getItem("refresh_token") || null,
-    loading: true,
+    loading: false,
     error: null,
   },
   reducers: {

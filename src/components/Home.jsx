@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Bloglist from "./Bloglist";
 import FormModal from "./FormModal";
@@ -39,15 +39,17 @@ const Home = ({ children }) => {
     categoryFormModal,
   } = useSelector((state) => state.blog);
 
-  // Fetch blogs and categories on mount
   useEffect(() => {
     dispatch(fetchBloglist());
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, []);
 
-  // Handlers
+  const navigate = useNavigate();
   const handleCloseModal = () => dispatch(setFormModalClose());
-  const handleCategoryClick = (data) => dispatch(setSelectedCategoryId(data));
+  const handleCategoryClick = (data) => {
+    dispatch(setSelectedCategoryId(data));
+    navigate("/");
+  };
   const handleCloseCategoryModal = () => dispatch(setShowCategoryModalOff());
   const handleAddCategory = () => dispatch(setShowCategoryModalOn());
 

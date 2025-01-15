@@ -36,11 +36,11 @@ const FormModal = ({
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
-    if (editModal && initialData) {
+    if (editModal) {
       Object.keys(initialData).forEach((key) => {
         setValue(key, initialData[key]);
         if (key === "image" && initialData[key]) {
-          setImagePreview(initialData[key]); // Set image preview if image exists
+          setImagePreview(initialData[key]); 
         }
       });
     } else {

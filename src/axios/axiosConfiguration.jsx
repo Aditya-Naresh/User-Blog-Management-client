@@ -64,7 +64,6 @@ instance.interceptors.response.use(
 
           return instance(error.config); // Retry the original request with the new token
         } catch (err) {
-          // If refresh fails, logout user and redirect to login page
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
           window.location.href = "/login"; // Or handle it as needed
@@ -76,12 +75,7 @@ instance.interceptors.response.use(
       }
     }
 
-    // // Handle cases where the refresh token is invalid or expired
-    // if (response && response.status === 401) {
-    //   localStorage.removeItem("access_token");
-    //   localStorage.removeItem("refresh_token");
-    //   window.location.href = "/login"; // Redirect to login page
-    // }
+  
 
     return Promise.reject(error);
   }

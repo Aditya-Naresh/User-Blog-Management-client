@@ -15,7 +15,7 @@ const blogSlice = createSlice({
     categoryList: [],
     selectedCategoryId: null,
     blogList: [],
-    selectedBlog: null,
+    selectedBlog: {},
     selectedBlogId: null,
     showBlog: false,
     formModal: false,
@@ -24,12 +24,10 @@ const blogSlice = createSlice({
   },
   reducers: {
     setShowBlog: (state, action) => {
-      state.selectedBlog = action.payload;
       state.showBlog = true;
     },
     setShowBlogList: (state) => {
       state.showBlog = false;
-      state.selectedBlog = null;
     },
     setSelectedCategoryId: (state, action) => {
       state.selectedCategoryId = action.payload;
@@ -54,6 +52,9 @@ const blogSlice = createSlice({
     setShowCategoryModalOff: (state) => {
       state.categoryFormModal = false;
     },
+    setSelectedBlog: (state, action) => {
+      state.selectedBlog = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -104,18 +105,6 @@ const blogSlice = createSlice({
       .addCase(updateBlogPost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error;
-      })
-      .addCase(fetchBlogPost.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchBlogPost.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error;
-      })
-      .addCase(fetchBlogPost.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.selectedBlog = action.payload;
       });
   },
 });
@@ -130,5 +119,6 @@ export const {
   setSelectedCategoryId,
   setShowCategoryModalOn,
   setShowCategoryModalOff,
+  setSelectedBlog
 } = blogSlice.actions;
 export default blogSlice.reducer;
