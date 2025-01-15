@@ -181,10 +181,26 @@ const FormModal = ({
           <Typography variant="h6" className="mb-2">
             Blog Content (Markdown)
           </Typography>
-          <MDEditor
-            value={watch("content") || ""}
-            onChange={handleMarkdownChange}
-            height={300}
+          <Controller
+            name="content"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Content is required" }}
+            render={({ field }) => (
+              <>
+                <MDEditor
+                  {...field}
+                  value={field.value || ""}
+                  onChange={(value) => field.onChange(value)}
+                  height={300}
+                />
+                {errors.content && (
+                  <Typography variant="body1" color="error">
+                    {errors.content.message}
+                  </Typography>
+                )}
+              </>
+            )}
           />
         </div>
       </DialogContent>
